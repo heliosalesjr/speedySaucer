@@ -1,17 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://lkhobpwchfdt"]
+[gd_scene load_steps=6 format=3 uid="uid://lkhobpwchfdt"]
 
 [ext_resource type="Texture2D" uid="uid://dfa7une8gh0fu" path="res://purple.png" id="1_nobtc"]
 [ext_resource type="Script" path="res://Level_1.gd" id="1_sjdat"]
 [ext_resource type="PackedScene" uid="uid://bkh2mkuq64clc" path="res://Player.tscn" id="2_e5vfh"]
+[ext_resource type="PackedScene" uid="uid://cvn3nfqoivocr" path="res://maze.tscn" id="4_1c66q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sg1kj"]
+font_size = 40
+outline_size = 2
+outline_color = Color(0.367188, 0.246094, 0.417969, 1)
+shadow_color = Color(0.226563, 0.179688, 0.246094, 1)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_sjdat")
 
-[node name="Background" type="TextureRect" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1_nobtc")
 stretch_mode = 1
 
+[node name="Maze" parent="." instance=ExtResource("4_1c66q")]
+position = Vector2(365, 182)
+
 [node name="Player" parent="." instance=ExtResource("2_e5vfh")]
 position = Vector2(381, 228)
+
+[node name="StartLabel" type="Label" parent="."]
+offset_left = 210.0
+offset_top = 50.0
+offset_right = 390.0
+offset_bottom = 137.0
+size_flags_horizontal = 4
+text = "Start!!!"
+label_settings = SubResource("LabelSettings_sg1kj")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="EndLabel" type="Label" parent="."]
+offset_left = 656.0
+offset_top = -53.0
+offset_right = 836.0
+offset_bottom = 34.0
+size_flags_horizontal = 4
+text = "End!"
+label_settings = SubResource("LabelSettings_sg1kj")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[connection signal="body_exited" from="Maze" to="." method="_on_maze_body_exited"]
